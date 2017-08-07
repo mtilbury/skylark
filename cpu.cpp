@@ -63,3 +63,25 @@ void cpu::loadGame(istream &game){
   // Free dynamically allocated memory
   delete[] buffer;
 }
+
+void cpu::cycle(){
+  // Obtain next opcode
+  // Works by shifting the first byte to the left by adding 8 zeroes. Then,
+  // by using OR, it combines both into a two byte value.
+  opcode = ram[pc] << 8 | ram[pc + 1];
+
+  // Decode the opcode
+
+    // Execute with large switch statement
+
+  // Update timers
+  if(delay_timer > 0){
+    --delay_timer;
+  }
+  if(sound_timer > 0){
+    if(sound_timer == 1){
+      // make sound
+    }
+    --sound_timer;
+  }
+}
