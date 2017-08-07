@@ -11,9 +11,7 @@ void cpu::init(){
   sp = 0; // Reset stack pointer
 
   // Clear display
-  for(int i = 0; i < 64 * 32; ++i){
-    screen[i] = 0;
-  }
+  clearScreen();
 
   // Clear stack
   for(int i = 0; i < 16; ++i){
@@ -71,8 +69,20 @@ void cpu::cycle(){
   opcode = ram[pc] << 8 | ram[pc + 1];
 
   // Decode the opcode
-
+  switch(opcode & 0xF000){ // checks the first 4 bits of opcode
     // Execute with large switch statement
+    case 0x0000:
+      switch(opcode & 0x000F){ // checks last 4 bits of opcode
+        case 0x000E:
+          // return from subroutine
+        case 0x0000:
+          // clear the screen
+          clearScreen();
+      }
+      break;
+      default:
+        cout << "Ruh roh! This opcode wasn't implemented!" << endl;
+  }
 
   // Update timers
   if(delay_timer > 0){
@@ -83,5 +93,11 @@ void cpu::cycle(){
       // make sound
     }
     --sound_timer;
+  }
+}
+
+void cpu::clearScreen(){
+  for(int i = 0; i < 64 * 32; ++i){
+    screen[i] = 0;
   }
 }

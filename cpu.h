@@ -36,6 +36,7 @@ private:
   unsigned short sp; // stack pointer stores the current stack level
 
   unsigned char key[16]; // used for keypad control
+  void clearScreen(); // clears the screen
 
   // Defines the fontset
   unsigned char chip8_fontset[80] =
