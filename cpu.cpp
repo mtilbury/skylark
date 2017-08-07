@@ -1,4 +1,8 @@
 #include "cpu.h"
+#include <string>
+#include <iostream>
+#include <fstream>
+using namespace::std;
 
 void cpu::init(){
   pc = 0x200; // Program counter at address 0x200
@@ -39,4 +43,23 @@ void cpu::init(){
   // Reset timers
   delay_timer = 0;
   sound_timer = 0;
+}
+
+void cpu::loadGame(istream &game){
+  // get length of file
+  game.seekg(0, game.end);
+  int length = game.tellg();
+  game.seekg(0, game.beg);
+
+  // Create dynamic array for size of file. Reads one byte at a time to buffer
+  char * buffer = new char [length];
+  game.read(buffer, length);
+
+  // Set buffer into memory starting at position 512 (0x200)
+  for(int i = 0; i < length; ++i){
+    ram[i + 512] = buffer[i];
+  }
+
+  // Free dynamically allocated memory
+  delete[] buffer;
 }

@@ -12,12 +12,13 @@ public:
   bool drawflag = false; // if the drawflag is set to true, the screen is drawn
   void init(); // initializes the cpu
   void cycle(); // completes one cycle of emulation
-  void loadGame(std::string game); // loads the game
+  void loadGame(std::istream &game); // loads the game
   void setKeys(); // sets the key press state
+  unsigned char ram[4096]; // represents the 4096 8-bit memory locations
 
 private:
   unsigned short opcode; // holds the current 2-byte opcode
-  unsigned char ram[4096]; // represents the 4096 8-bit memory locations
+
   unsigned char reg[16]; // represents the CPU registers V0 through VE
   unsigned char fontset[80]; // the fontset for the CHIP-8 stored in memory
 
