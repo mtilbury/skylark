@@ -73,13 +73,72 @@ void cpu::cycle(){
     // Execute with large switch statement
     case 0x0000:
       switch(opcode & 0x000F){ // checks last 4 bits of opcode
-        case 0x000E:
+        case 0x000E: //0x00EE
           // return from subroutine
-        case 0x0000:
+          // TODO
+          break;
+
+        case 0x0000: //0x00E0
           // clear the screen
           clearScreen();
+          pc += 2;
+          break;
       }
-      break;
+
+      case 0x1000: //0x1NNN
+        // Jumps to address NNN
+        pc = opcode & 0x0FFF;
+        break;
+
+      case 0x2000: //0x2NNN
+        // Calls subroutine at NNN
+        stack[sp] = pc;
+        ++sp;
+        pc = opcode & 0x0FFF;
+        break;
+
+      case 0x3000: //0x3XNN
+        // Skips the next instruction if VX = NN
+        if(reg[(opcode & 0x0F00) >> 8] == (opcode & 0x00FF)){
+          pc += 4;
+        }
+        else{
+          pc += 2;
+        }
+        break;
+
+      case 0x4000: //0x4XNN
+        // Skips the next instruction if VX != NN
+        if(reg[(opcode & 0x0F00) >> 8] != (opcode & 0x00FF)){
+          pc += 4;
+        }
+        else{
+          pc += 2;
+        }
+        break;
+
+      case 0x5000: //0x5XY0
+        // Skips the next instruction if VX equals VY
+        if(reg[(opcode & 0x0F00) >> 8] == reg[(opcode & 0x00F0) >> 4]){
+          pc += 4;
+        }
+        else{
+          pc += 2;
+        }
+        break;
+
+      case 0x6000: //0x6XNN
+        // Sets VX to NN
+        reg[(opcode & 0x0F00) >> 8] = (opcode & 0x00FF);
+        pc += 2;
+        break;
+
+      case 0x7000: //0x7XNN
+        // Adds NN to VX
+        reg[(opcode & 0x0F00) >> 8] += (opcode & 0x00FF);
+        pc += 2;
+        break;
+
       default:
         cout << "Ruh roh! This opcode wasn't implemented!" << endl;
   }
@@ -94,6 +153,8 @@ void cpu::cycle(){
     }
     --sound_timer;
   }
+  pc += 2;
+  cout << "weoew!" << endl;
 }
 
 void cpu::clearScreen(){
