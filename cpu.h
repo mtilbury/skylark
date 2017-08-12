@@ -9,8 +9,10 @@
 
 class cpu {
 public:
+  cpu(); // default constructor
   bool drawflag = false; // if the drawflag is set to true, the screen is drawn
-  void init(); // initializes the cpu
+  // void init(); // initializes the cpu
+
   void cycle(); // completes one cycle of emulation
   void loadGame(std::istream &game); // loads the game
   void setKeys(); // sets the key press state
@@ -46,10 +48,7 @@ private:
   void clearScreen(); // clears the screen
 
   bool debug; // 1 if debug mode, 0 if not
-  string debug_text; // holds text saying what happened at each step
-
-
-
+  std::string debug_text; // holds text saying what happened at each step
 
   // Defines the fontset
   unsigned char chip8_fontset[80] =
