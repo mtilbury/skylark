@@ -1,5 +1,4 @@
 *.exe
-test.cpp
-Makefile
 INVADERS
 .INVADERS.swp
+test
