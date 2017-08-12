@@ -11,7 +11,6 @@ class cpu {
 public:
   cpu(); // default constructor
   bool drawflag = false; // if the drawflag is set to true, the screen is drawn
-  // void init(); // initializes the cpu
 
   void cycle(); // completes one cycle of emulation
   void loadGame(std::istream &game); // loads the game

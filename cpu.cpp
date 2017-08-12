@@ -38,45 +38,6 @@ cpu::cpu() : opcode(0), i(0), pc(0x200), sp(0) {
   sound_timer = 0;
 }
 
-// void cpu::init(){
-//   pc = 0x200; // Program counter at address 0x200
-//   opcode = 0; // No current opcode
-//   i = 0; // Stack register to 0
-//   sp = 0; // Reset stack pointer
-//
-//   // Clear display
-//   clearScreen();
-//
-//   // Clear stack
-//   for(int i = 0; i < 16; ++i){
-//     stack[i] = 0;
-//   }
-//
-//   // Clear registers V0-VF
-//   for(int i = 0; i < 16; ++i){
-//     reg[i] = 0;
-//   }
-//
-//   // Clear memory
-//   for(int i = 0; i < 4096; ++i){
-//     ram[i] = 0;
-//   }
-//
-//   // Load fontset into memory
-//   for(int i = 0; i < 80; ++i){
-//     ram[i] = chip8_fontset[i];
-//   }
-//
-//   // Clear keypad array
-//   for(int i = 0; i < 16; ++i){
-//     key[i] = 0;
-//   }
-//
-//   // Reset timers
-//   delay_timer = 0;
-//   sound_timer = 0;
-// }
-
 void cpu::loadGame(istream &game){
   // get length of file
   game.seekg(0, game.end);
@@ -199,7 +160,6 @@ void cpu::clearScreen(){
 const unsigned short& cpu::getOpcode(){
   return opcode;
 }
-
 const unsigned char* cpu::getRegisters(){
   return reg;
 }
