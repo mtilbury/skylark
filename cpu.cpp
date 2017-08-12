@@ -162,3 +162,23 @@ void cpu::clearScreen(){
     screen[i] = 0;
   }
 }
+
+const unsigned short& cpu::getOpcode(){
+  return opcode;
+}
+
+const unsigned char* cpu::getRegisters(){
+  return reg;
+}
+const unsigned short& cpu::getIndex(){
+  return i;
+}
+const unsigned short& cpu::getProgramCounter(){
+  return pc;
+}
+const unsigned short* cpu::getStack(){
+  return stack;
+}
+const unsigned short& cpu::getStackPointer(){
+  return sp;
+}

@@ -16,6 +16,13 @@ public:
   void setKeys(); // sets the key press state
   unsigned char ram[4096]; // represents the 4096 8-bit memory locations
 
+  const unsigned short& getOpcode();
+  const unsigned char* getRegisters();
+  const unsigned short& getIndex();
+  const unsigned short& getProgramCounter();
+  const unsigned short* getStack();
+  const unsigned short& getStackPointer();
+
 private:
   unsigned short opcode; // holds the current 2-byte opcode
 
@@ -37,6 +44,12 @@ private:
 
   unsigned char key[16]; // used for keypad control
   void clearScreen(); // clears the screen
+
+  bool debug; // 1 if debug mode, 0 if not
+  string debug_text; // holds text saying what happened at each step
+
+
+
 
   // Defines the fontset
   unsigned char chip8_fontset[80] =
