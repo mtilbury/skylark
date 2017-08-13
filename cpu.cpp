@@ -4,7 +4,7 @@
 #include <fstream>
 using namespace::std;
 
-cpu::cpu() : opcode(0), i(0), pc(0x200), sp(0), debug_text("n/a") {
+cpu::cpu() : opcode(0), i(0), pc(0x200), sp(0) {
   // Clear display
   clearScreen();
 
@@ -62,7 +62,6 @@ void cpu::cycle(){
   // Works by shifting the first byte to the left by adding 8 zeroes. Then,
   // by using OR, it combines both into a two byte value.
   opcode = ram[pc] << 8 | ram[pc + 1];
-
   // Decode the opcode
   switch(opcode & 0xF000){ // checks the first 4 bits of opcode
     // Execute with large switch statement
@@ -136,6 +135,7 @@ void cpu::cycle(){
 
       default:
         cout << "Ruh roh! This opcode wasn't implemented!" << endl;
+        pc += 2;
   }
 
   // Update timers
@@ -148,7 +148,6 @@ void cpu::cycle(){
     }
     --sound_timer;
   }
-  pc += 2;
 }
 
 void cpu::clearScreen(){
@@ -174,7 +173,4 @@ const unsigned short* cpu::getStack(){
 }
 const unsigned short& cpu::getStackPointer(){
   return sp;
-}
-const string& cpu::getDebugString(){
-  return debug_text;
 }
