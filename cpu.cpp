@@ -4,7 +4,7 @@
 #include <fstream>
 using namespace::std;
 
-cpu::cpu() : opcode(0), i(0), pc(0x200), sp(0) {
+cpu::cpu() : opcode(0), i(0), pc(0x200), sp(0), debug_text("n/a") {
   // Clear display
   clearScreen();
 
@@ -174,4 +174,7 @@ const unsigned short* cpu::getStack(){
 }
 const unsigned short& cpu::getStackPointer(){
   return sp;
+}
+const string& cpu::getDebugString(){
+  return debug_text;
 }

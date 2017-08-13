@@ -23,6 +23,7 @@ public:
   const unsigned short& getProgramCounter();
   const unsigned short* getStack();
   const unsigned short& getStackPointer();
+  const std::string& getDebugString();
 
 private:
   unsigned short opcode; // holds the current 2-byte opcode
@@ -46,7 +47,6 @@ private:
   unsigned char key[16]; // used for keypad control
   void clearScreen(); // clears the screen
 
-  bool debug; // 1 if debug mode, 0 if not
   std::string debug_text; // holds text saying what happened at each step
 
   // Defines the fontset
