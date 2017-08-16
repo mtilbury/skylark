@@ -118,22 +118,22 @@ void Debugger::updateDebugInfo(){
       switch(opcode & 0x000F){ // checks last 4 bits of opcode
         case 0x000E: //0x00EE
           debug = "Return from subroutine.";
-          break;
+        break;
 
         case 0x0000: //0x00E0
           debug = "Cleared screen.";
-          break;
+        break;
       }
 
       case 0x1000: //0x1NNN
         ss << "Jump to address 0x" << std::hex << (opcode & 0x0FFF);
         debug = ss.str();
-        break;
+      break;
 
       case 0x2000: //0x2NNN
         ss << "Call to subroutine at address 0x" << std::hex << (opcode & 0x0FFF);
         debug = ss.str();
-        break;
+      break;
 
       case 0x3000: //0x3XNN
         // Skips the next instruction if VX = NN
@@ -147,7 +147,7 @@ void Debugger::updateDebugInfo(){
              << " != 0x" << std::hex << (opcode & 0x00FF);
           debug = ss.str();
         }
-        break;
+      break;
 
       case 0x4000: //0x4XNN
         // Skips the next instruction if VX != NN
@@ -161,7 +161,7 @@ void Debugger::updateDebugInfo(){
              << " = 0x" << std::hex << (opcode & 0x00FF);
           debug = ss.str();
         }
-        break;
+      break;
 
       case 0x5000: //0x5XY0
         // Skips the next instruction if VX equals VY
@@ -175,17 +175,17 @@ void Debugger::updateDebugInfo(){
              << " = V" << std::hex << ((opcode & 0x00F0) >> 4);
           debug = ss.str();
         }
-        break;
+      break;
 
       case 0x6000: //0x6XNN
         ss << "Set V" << ((opcode & 0x0F00) >> 8) << " to 0x" << std::hex << (opcode & 0x00FF);
         debug = ss.str();
-        break;
+      break;
 
       case 0x7000: //0x7XNN
         ss << "Adds 0x" << std::hex << (opcode & 0x00FF) << " to V" << std::hex << ((opcode & 0x0F00) >> 8);
         debug = ss.str();
-        break;
+      break;
 
       default:
         debug = "n/a";
