@@ -112,6 +112,7 @@ void Debugger::updateDebugInfo(){
   const unsigned short opcode = chip8.getOpcode();
   const unsigned char* reg = chip8.getRegisters();
   std::ostringstream ss;
+  std::string vx, vy;
   switch(opcode & 0xF000){ // checks the first 4 bits of opcode
     // Execute with large switch statement
     case 0x0000:
@@ -124,6 +125,7 @@ void Debugger::updateDebugInfo(){
           debug = "Cleared screen.";
         break;
       }
+    break;
 
       case 0x1000: //0x1NNN
         ss << "Jump to address 0x" << std::hex << (opcode & 0x0FFF);
@@ -184,6 +186,69 @@ void Debugger::updateDebugInfo(){
 
       case 0x7000: //0x7XNN
         ss << "Adds 0x" << std::hex << (opcode & 0x00FF) << " to V" << std::hex << ((opcode & 0x0F00) >> 8);
+        debug = ss.str();
+      break;
+
+      case 0x8000:
+      ss << "V" << std::hex << ((opcode & 0x0F00) >> 8);
+      vx = ss.str();
+      ss.str("");
+
+      ss << "V" << std::hex << ((opcode & 0x00F0) >> 4);
+      vy = ss.str();
+      ss.str("");
+
+        switch(opcode & 0x000F){
+          case 0x0000: //0x8XY0
+            ss << "Set " << vx << " to the value of " << vy;
+            debug = ss.str();
+          break;
+
+          case 0x0001: //0x8XY1
+            ss << "Set " << vx << " to " << vx << " OR " << vy;
+            debug = ss.str();
+          break;
+
+          case 0x0002: //0x8XY2
+            ss << "Set " << vx << " to " << vx << " AND " << vy;
+            debug = ss.str();
+          break;
+
+          case 0x0003: //0x8XY3
+            ss << "Set " << vx << " to " << vx << " XOR " << vy;
+            debug = ss.str();
+          break;
+
+          case 0x0004: //0x8XY4
+            ss << "Adds " << vy << " to " << vx << ". VF is set to 0 if there's a carry, 1 if not.";
+            debug = ss.str();
+          break;
+
+          case 0x0005: //0x8XY5
+            ss << "Subtracts " << vy << " from " << vx << ". VF is set to 0 if there's a borrow, 1 if not.";
+            debug = ss.str();
+          break;
+
+          case 0x0006: //0x8XY6
+            ss << "Shifts " << vx << " right by one bit. VF is set to the most significant bit before the shift.";
+            debug = ss.str();
+          break;
+
+          case 0x0007: //0x8XY7
+            ss << "Sets " << vx << " to " << vy << " minus " << vx << ". VF is set to 0 if there's a borrow, 1 if not.";
+            debug = ss.str();
+          break;
+
+          case 0x000E: //0x8XYE
+            ss << "Shifts " << vx << " left by one bit. VF is set to the most significant bit before the shift.";
+            debug = ss.str();
+          break;
+        }
+      break;
+
+      case 0x9000: //0x9XY0
+        ss << "Skips the next instruction if V" << std::hex << ((opcode & 0x0F00) >> 8)
+           << " doesn't equal V" << std::hex << ((opcode & 0x00F0) >> 4);
         debug = ss.str();
       break;
 

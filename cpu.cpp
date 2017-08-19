@@ -70,6 +70,7 @@ void cpu::cycle(){
         case 0x000E: //0x00EE
           // return from subroutine
           // TODO
+          pc += 2;
         break;
 
         case 0x0000: //0x00E0
