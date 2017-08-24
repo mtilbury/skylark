@@ -1,10 +1,11 @@
 main:
-	g++ -Wall -Werror -pedantic --std=c++11 -O1 cpu.cpp cpu.h main.cpp -o skylark.exe
-	./skylark.exe
+	g++ -Wall -Werror -pedantic --std=c++11 -O1 src/cpu.cpp src/cpu.h src/main.cpp -o skylark.exe
 
 debug:
-	g++ -Wall -Werror -pedantic --std=c++11 -O1 cpu.cpp cpu.h test.cpp -o test
+	g++ -Wall -Werror -pedantic --std=c++11 -O1 src/cpu.cpp src/cpu.h src/test.cpp -o test
 
 .PHONY: clean
 clean:
 		rm -vrf *.exe test
+		# find . -name 'test' -delete
+		# find . -name '*.exe' -delete
