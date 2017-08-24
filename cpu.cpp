@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <random>
 using namespace::std;
 
 cpu::cpu() : opcode(0), i(0), pc(0x200), sp(0) {
@@ -62,6 +63,7 @@ void cpu::cycle(){
   // Works by shifting the first byte to the left by adding 8 zeroes. Then,
   // by using OR, it combines both into a two byte value.
   opcode = ram[pc] << 8 | ram[pc + 1];
+
   // Decode the opcode
   switch(opcode & 0xF000){ // checks the first 4 bits of opcode
     // Execute with large switch statement
@@ -224,6 +226,127 @@ void cpu::cycle(){
         }
       break;
 
+      case 0xA000: //0xANNN
+        // Sets I to the address NNN
+        i = opcode & 0x0FFF;
+        pc += 2;
+      break;
+
+      case 0xB000: //0xBNNN
+        // Jumps to the address NNN plus V0
+        pc = reg[0] + (opcode & 0x0FFF);
+      break;
+
+      case 0xC000: //0xCXNN
+        // Sets VX to the result of a bitwise AND operation on a random number
+        // (typically 0 through 255) and NN
+        reg[(opcode & 0x0F00) >> 8] = random_number() & (opcode & 0x00FF);
+        pc += 2;
+      break;
+
+      case 0xD000: //0xDXYN
+        // Draws a sprite at coordinate (VX, VY) that has width 8 pixels and
+        // height N pixels. Each row of 8 pixels is read as bit-coded starting
+        // from memory location I (I doesn't change after this). VF is set to 1
+        // if any screen pixels are flipped from set to unset when the sprite
+        // is drawn and 0 if it doesn't
+
+        // TODO: implement this display function
+        pc += 2;
+      break;
+
+      case 0xE000:
+        switch(opcode & 0x00FF){
+          case 0x009E: //0xEX9E
+            // Skips the next instruction if the ket stored in VX is pressed
+            if(key[reg[(opcode & 0x0F00) >> 8]] != 0){
+              pc += 4;
+            }
+            else{
+              pc += 2;
+            }
+          break;
+
+          case 0x00A1: //0xEXA1
+            // Skips the next instruction if the key stored in VX isn't pressed
+            if(key[reg[(opcode & 0x0F00) >> 8]] == 0){
+              pc += 4;
+            }
+            else{
+              pc += 2;
+            }
+          break;
+        }
+      break;
+
+      case 0xF000:
+        switch(opcode & 0x00FF){
+          case 0x0007: //0xFX07
+            // Sets VX to the value of the delay timer
+            reg[(opcode & 0x0F00) >> 8] = delay_timer;
+            pc += 2;
+          break;
+
+          case 0x000A: //0xFX0A
+            // A key press is awaited, then stored in VX. All instruction is
+            // halted until the next key event.
+            // TODO: implement key stuff
+            pc += 2;
+          break;
+
+          case 0x0015: //0xFX15
+            // Sets the delay timer to VX
+            delay_timer = reg[(opcode & 0x0F00) >> 8];
+            pc += 2;
+          break;
+
+          case 0x0018: //0xFX18
+            // Sets the sound timer to VX
+            sound_timer = reg[(opcode & 0x0F00) >> 8];
+            pc += 2;
+          break;
+
+          case 0x001E: //0xFX1E
+            // Adds VX to I
+            i += reg[(opcode & 0x0F00) >> 8];
+            pc += 2;
+          break;
+
+          case 0x0029: //0xFX29
+            // Sets I to the location of the sprite for the character in VX
+            i = chip8_fontset[reg[(opcode & 0x0F00) >> 8]];
+            pc += 2;
+          break;
+
+          case 0x0033: //0xFX33
+            // Stores the binary coded decimal representation of VX, with the
+            // most significant of three digits at the address in I, the middle
+            // digit at I plys 1, and the least significant digit at I plus 2.
+            ram[i]     = (reg[(opcode & 0x0F00) >> 8] / 100);
+            ram[i + 1] = (reg[(opcode & 0x0F00) >> 8] % 10) / 10;
+            ram[i + 2] = (reg[(opcode & 0x0F00) >> 8] % 10);
+            pc += 2;
+          break;
+
+          case 0x0055: //0xFX55
+            // Stores V0 through VX in memory starting at address I
+            for(int n = 0; n <= ((opcode & 0x0F00) >> 8); ++n){
+              ram[i + n] = reg[n];
+            }
+
+            pc += 2;
+          break;
+
+          case 0x0065: //0xFX65
+            // Fills V0 through VX with values from memory starting ad address I
+            for(int n = 0; n <= (opcode & 0x0F00) >> 8; ++n){
+              reg[n] = ram[i + n];
+            }
+
+            pc += 2;
+          break;
+        }
+
       default:
         cout << "Ruh roh! This opcode wasn't implemented!" << endl;
         pc += 2;
@@ -264,4 +387,11 @@ const unsigned short* cpu::getStack(){
 }
 const unsigned short& cpu::getStackPointer(){
   return sp;
+}
+
+unsigned char cpu::random_number(){
+  std::mt19937 rng;
+  rng.seed(std::random_device()());
+  std::uniform_int_distribution<std::mt19937::result_type> dist(0,255);
+  return dist(rng);
 }
