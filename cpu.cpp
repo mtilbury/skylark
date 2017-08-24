@@ -5,6 +5,8 @@
 #include <random>
 using namespace::std;
 
+static unsigned char random_number();
+
 cpu::cpu() : opcode(0), i(0), pc(0x200), sp(0) {
   // Clear display
   clearScreen();
@@ -290,7 +292,7 @@ void cpu::cycle(){
           case 0x000A: //0xFX0A
             // A key press is awaited, then stored in VX. All instruction is
             // halted until the next key event.
-            // TODO: implement key stuff
+            // TODO
             pc += 2;
           break;
 
@@ -346,6 +348,7 @@ void cpu::cycle(){
             pc += 2;
           break;
         }
+        break;
 
       default:
         cout << "Ruh roh! This opcode wasn't implemented!" << endl;
@@ -389,7 +392,7 @@ const unsigned short& cpu::getStackPointer(){
   return sp;
 }
 
-unsigned char cpu::random_number(){
+static unsigned char random_number(){
   std::mt19937 rng;
   rng.seed(std::random_device()());
   std::uniform_int_distribution<std::mt19937::result_type> dist(0,255);

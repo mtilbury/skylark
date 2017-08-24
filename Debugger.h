@@ -252,6 +252,96 @@ void Debugger::updateDebugInfo(){
         debug = ss.str();
       break;
 
+      case 0xA000: //0xANNN
+        ss << "Sets I to the address 0x" << std::hex << (opcode & 0x0FFF);
+        debug = ss.str();
+      break;
+
+      case 0xB000: //0xBNNN
+        ss << "Jump to the address 0x" << std::hex << (opcode & 0x0FFF) << " plus V0";
+        debug = ss.str();
+      break;
+
+      case 0xC000: //0xCXNN
+        ss << "Set V" << std::hex << ((opcode & 0x0F00) >> 8) << " to a random number between 0 and 255 and "
+           << std::hex << (opcode & 0x00FF);
+        debug = ss.str();
+      break;
+
+      case 0xD000: //0xDXYN
+        debug = "Draws sprite";
+      break;
+
+      case 0xE000:
+        switch(opcode & 0x00FF){
+          case 0x009E: //0xEX9E
+            ss << "Skips the next instruction if the key stored in V" << std::hex
+               << ((opcode & 0x0F00) >> 8) << " is pressed";
+            debug = ss.str();
+          break;
+
+          case 0x00A1: //0xEXA1
+            ss << "Skips the next instruction if the key stored in V" << std::hex
+               << ((opcode & 0x0F00) >> 8) << " isn't pressed";
+            debug = ss.str();
+          break;
+        }
+      break;
+
+      case 0xF000:
+        ss << "V" << std::hex << ((opcode & 0x0F00) >> 8);
+        vx = ss.str();
+        ss.str("");
+
+        switch(opcode & 0x00FF){
+          case 0x0007: //0xFX07
+            ss << "Sets " << vx << " to the value of the delay timer";
+            debug = ss.str();
+          break;
+
+          case 0x000A: //0xFX0A
+            ss << "Awaiting key press to store in " << vx;
+            debug = ss.str();
+          break;
+
+          case 0x0015: //0xFX15
+            ss << "Sets the delay timer to " << vx;
+            debug = ss.str();
+          break;
+
+          case 0x0018: //0xFX18
+            ss << "Sets the sound timer to " << vx;
+            debug = ss.str();
+          break;
+
+          case 0x001E: //0xFX1E
+            ss << "Adds " << vx << " to I";
+            debug = ss.str();
+          break;
+
+          case 0x0029: //0xFX29
+            ss << "Sets I to the location of the sprite for the character in " << vx;
+            debug = ss.str();
+          break;
+
+          case 0x0033: //0xFX33
+            ss << "Stores the binary coded decimal represenation of VX in memory."
+               << " The hundreds digit at I, tens at I+1, and the ones at I+2";
+            debug = ss.str();
+          break;
+
+          case 0x0055: //0xFX55
+            ss << "Stores V0 to " << vx << " in memory starting at address I";
+            debug = ss.str();
+          break;
+
+          case 0x0065: //0xFX65
+            ss << "Fills V0 to " << vx << " with values from memory starting at address I";
+            debug = ss.str();
+          break;
+        }
+      break;
+
       default:
         debug = "n/a";
   }
