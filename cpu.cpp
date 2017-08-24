@@ -73,7 +73,9 @@ void cpu::cycle(){
       switch(opcode & 0x000F){ // checks last 4 bits of opcode
         case 0x000E: //0x00EE
           // return from subroutine
-          // TODO
+          pc = stack[sp];
+          stack[sp] = 0;
+          --sp;
           pc += 2;
         break;
 
@@ -252,9 +254,29 @@ void cpu::cycle(){
         // from memory location I (I doesn't change after this). VF is set to 1
         // if any screen pixels are flipped from set to unset when the sprite
         // is drawn and 0 if it doesn't
+      {
+        // x and y represent coordinates. height is the height of the sprite
+        // to be drawn (width is always 8)
+        unsigned short x = reg[(opcode & 0x0F00) >> 8];
+        unsigned short y = reg[(opcode & 0x00F0) >> 4];
+        unsigned short height = opcode & 0x000F;
+        unsigned short pixel;
 
-        // TODO: implement this display function
+        reg[0xF] = 0; //VF set to 0 to start. will be set to 1 if a lit pixel is turned off
+        for(int yline = 0; yline < height; ++yline){ // for each row...
+          pixel = ram[i + yline]; // set pixel to the string of bits starting at I + row
+          for(int xline = 0; xline < 8; ++xline){ // for each column...
+            if((pixel & (0x80 >> xline)) != 0){ // checks one bit of pixel
+              if(screen[(x + xline + ((y + yline) * 64))] == 1){
+                reg[0xF] = 1;
+              }
+              screen[x + xline + ((y + yline) * 64)] ^= 1; //xor with 1.
+            }
+          }
+        }
+        drawflag = true;
         pc += 2;
+      }
       break;
 
       case 0xE000:

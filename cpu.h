@@ -15,7 +15,7 @@ public:
   void cycle(); // completes one cycle of emulation
   void loadGame(std::istream &game); // loads the game
   void setKeys(); // sets the key press state
-  unsigned char ram[4096]; // represents the 4096 8-bit memory locations
+  unsigned char key[16]; // used for keypad control
 
   const unsigned short& getOpcode();
   const unsigned char* getRegisters();
@@ -43,7 +43,7 @@ private:
   unsigned short stack[16];
   unsigned short sp; // stack pointer stores the current stack level
 
-  unsigned char key[16]; // used for keypad control
+  unsigned char ram[4096]; // represents the 4096 8-bit memory locations
   void clearScreen(); // clears the screen
 
   // Defines the fontset

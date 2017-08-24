@@ -1,13 +1,15 @@
 #include "cpu.h"
-#include <iostream>
-#include <fstream>
+#include <iostream> // for input/output to terminal
+#include <fstream> // to open and read from ROM file
 
 using namespace std;
 
 int main(){
+  // Initialize the emulator
   cpu skylark;
   skylark.init();
 
+  // Load ROM file
   cout << "Please enter a ROM file." << endl;
   string game;
   cin >> game;
