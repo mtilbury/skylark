@@ -1,5 +1,5 @@
 *.exe
-INVADERS
-allop
-.INVADERS.swp
 test
+roms/
+.INVADERS.swp
+output

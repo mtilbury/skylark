@@ -72,6 +72,8 @@ int main(int argc, char* argv[]){
   while(gameOn){
     // Emulate one cycle
     skylark.cycle();
+    cout << "Opcode: 0x" << hex << skylark.getOpcode() <<
+            " pc = 0x" << hex << skylark.getProgramCounter() << endl;
 
     // If the draw flag is set, update the screen
     if(skylark.drawflag){
@@ -115,9 +117,10 @@ int main(int argc, char* argv[]){
             }
         }
     }
-
-
-    SDL_Delay(1);
+    skylark.drawflag = false;
+    SDL_Delay(2);
   }
+
+
   return 0;
 }

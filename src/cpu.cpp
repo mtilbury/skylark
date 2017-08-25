@@ -73,9 +73,9 @@ void cpu::cycle(){
       switch(opcode & 0x000F){ // checks last 4 bits of opcode
         case 0x000E: //0x00EE
           // return from subroutine
+          --sp;
           pc = stack[sp];
           stack[sp] = 0;
-          --sp;
           pc += 2;
         break;
 
@@ -314,8 +314,12 @@ void cpu::cycle(){
           case 0x000A: //0xFX0A
             // A key press is awaited, then stored in VX. All instruction is
             // halted until the next key event.
-            // TODO
-            pc += 2;
+            for(int n = 0; n < 16; ++n){
+              if(key[i] != 0){
+                reg[(opcode & 0x0F00) >> 8] = i;
+                pc += 2;
+              }
+            }
           break;
 
           case 0x0015: //0xFX15
@@ -338,7 +342,7 @@ void cpu::cycle(){
 
           case 0x0029: //0xFX29
             // Sets I to the location of the sprite for the character in VX
-            i = chip8_fontset[reg[(opcode & 0x0F00) >> 8]];
+            i = reg[(opcode & 0x0F00) >> 8] * 0x5;
             pc += 2;
           break;
 
@@ -347,7 +351,7 @@ void cpu::cycle(){
             // most significant of three digits at the address in I, the middle
             // digit at I plys 1, and the least significant digit at I plus 2.
             ram[i]     = (reg[(opcode & 0x0F00) >> 8] / 100);
-            ram[i + 1] = (reg[(opcode & 0x0F00) >> 8] % 10) / 10;
+            ram[i + 1] = (reg[(opcode & 0x0F00) >> 8] / 10) % 10;
             ram[i + 2] = (reg[(opcode & 0x0F00) >> 8] % 10);
             pc += 2;
           break;
