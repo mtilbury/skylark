@@ -17,11 +17,13 @@ public:
 
 private:
   cpu chip8;
-  void printOneRegister(unsigned char regIndex, std::ostream& out);
-  void printOneStack(unsigned short stackIndex, std::ostream& out);
   void updateDebugInfo();
   std::string debug; // holds debug information for latest instruction
 };
+
+// Static helper functions to assist with certain debugger functions
+static void printOneRegister(unsigned char regIndex, std::ostream& out);
+static void printOneStack(unsigned short stackIndex, std::ostream& out);
 
 // Completes one cycle of emulation for the internal cpu
 void Debugger::cycle(){
@@ -83,7 +85,7 @@ void Debugger::printDebug(){
 }
 
 // Prints a single register using hex formatting
-void Debugger::printOneRegister(unsigned char regIndex, std::ostream& out){
+static void printOneRegister(unsigned char regIndex, std::ostream& out){
   if((int) regIndex < 0x10){
     out << "0" << std::hex << (int) regIndex;
   }
@@ -93,7 +95,7 @@ void Debugger::printOneRegister(unsigned char regIndex, std::ostream& out){
 }
 
 // Prints a single stack entry with hex formatting
-void Debugger::printOneStack(unsigned short stackIndex, std::ostream& out){
+static void printOneStack(unsigned short stackIndex, std::ostream& out){
   if(stackIndex < 0x0010){
     out << "000" << stackIndex;
   }

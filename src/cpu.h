@@ -14,8 +14,8 @@ public:
 
   void cycle(); // completes one cycle of emulation
   void loadGame(std::istream &game); // loads the game
-  void setKeys(); // sets the key press state
   unsigned char key[16]; // used for keypad control
+  unsigned char screen[64 * 32]; // represents the 64x32 pixel b/w screen
 
   const unsigned short& getOpcode();
   const unsigned char* getRegisters();
@@ -32,7 +32,6 @@ private:
 
   unsigned short i; // index register
   unsigned short pc; // program counter
-  unsigned char screen[64 * 32]; // represents the 64x32 pixel b/w screen
 
   // Timers count 60 times per second and count down to 0
   unsigned char delay_timer;
