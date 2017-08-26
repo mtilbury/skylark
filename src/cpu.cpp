@@ -315,8 +315,8 @@ void cpu::cycle(){
             // A key press is awaited, then stored in VX. All instruction is
             // halted until the next key event.
             for(int n = 0; n < 16; ++n){
-              if(key[i] != 0){
-                reg[(opcode & 0x0F00) >> 8] = i;
+              if(key[n] != 0){
+                reg[(opcode & 0x0F00) >> 8] = n;
                 pc += 2;
               }
             }
