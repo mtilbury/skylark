@@ -44,3 +44,45 @@ demo ROM to test it out.
 ```
 
 <img src="http://i.imgur.com/tOe8RmA.png">
+
+<p>
+At this splash screen, you can press the w key to progress to the next screen.
+Here, you can use the wasd keys to move the smiley face around the screen.
+</p>
+
+### Controls
+
+<p>
+The CHIP-8 uses a 4x4 keypad to operate. This is mapped to the following keys on
+a standard QWERTY keyboard:
+</p>
+
+|   |   |   |   |
+|:-:|:-:|:-:|:-:|
+| 1 | 2 | 3 | 4 |
+| Q | W | E | R |
+| A | S | D | F |
+| Z | X | C | V |
+
+
+### Debugging
+
+<p>
+As of now, the debugger has been lagging far behind the progress of the
+actual emulator. It supports going through emulation one step at a time
+and looking at the values of the registers, index, etc. Eventually I would like
+it to include breakpoints and feature graphics (it's command line only now). To
+compile the debugger, run "make debug".
+</p>
+
+```
+make debug
+```
+
+<p>
+Then run the debugger the same way you'd run the actual emulator.
+</p>
+
+```
+./test demo.ch8
+```
