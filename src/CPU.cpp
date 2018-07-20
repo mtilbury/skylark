@@ -1,9 +1,11 @@
-#include "CPU.h"
-#include <string>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <random>
-using namespace::std;
+#include <string>
+
+#include "CPU.h"
+
+using namespace std;
 
 static unsigned char random_number();
 
@@ -374,11 +376,10 @@ void CPU::cycle(){
             pc += 2;
           break;
         }
-        break;
 
       default:
-        cout << "Ruh roh! This opcode wasn't implemented!" << endl;
-        pc += 2;
+        cerr << "Unrecognized upcode: 0x" << hex << opcode << endl;
+        exit(1);
   }
 
   // Update timers
@@ -387,7 +388,7 @@ void CPU::cycle(){
   }
   if(sound_timer > 0){
     if(sound_timer == 1){
-      // make sound
+      // TODO: make sound
     }
     --sound_timer;
   }
