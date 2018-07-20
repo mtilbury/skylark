@@ -1,17 +1,17 @@
 #ifndef SKYLARK_CPU_H_
 #define SKYLARK_CPU_H_
 /*
- *  cpu.h
+ *  CPU.h
  *
- *  Represents the internals of the CHIP-8 including the cpu and memory
+ *  Represents the internals of the CHIP-8 including the CPU and memory
  *
  */
 
 #include<string>
 
-class cpu {
+class CPU {
 public:
-  cpu(); // default constructor
+  CPU(); // default constructor
   bool drawflag = false; // if the drawflag is set to true, the screen is drawn
 
   void cycle(); // completes one cycle of emulation

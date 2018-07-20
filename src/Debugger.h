@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <sstream>
 
-#include "cpu.h"
+#include "CPU.h"
 
 class Debugger {
 public:
@@ -21,7 +21,7 @@ public:
   void printDebug();
 
 private:
-  cpu chip8;
+  CPU chip8;
   void updateDebugInfo();
   std::string debug; // holds debug information for latest instruction
 };
@@ -30,24 +30,24 @@ private:
 static void printOneRegister(unsigned char regIndex, std::ostream& out);
 static void printOneStack(unsigned short stackIndex, std::ostream& out);
 
-// Completes one cycle of emulation for the internal cpu
+// Completes one cycle of emulation for the internal CPU
 void Debugger::cycle(){
   chip8.cycle();
   updateDebugInfo();
 }
 
-// Loads a game to the internal cpu
+// Loads a game to the internal CPU
 void Debugger::loadGame(std::istream &game){
   chip8.loadGame(game);
 }
 
-// Prints the last opcode held by the cpu
+// Prints the last opcode held by the CPU
 void Debugger::printOpcode(){
   const unsigned short oc = chip8.getOpcode();
   std::cout << "Opcode: 0x" << std::hex << oc << std::endl;
 }
 
-// Prints the registers of the cpu
+// Prints the registers of the CPU
 void Debugger::printRegisters(){
   const unsigned char* V = chip8.getRegisters();
   std::cout << "V0 V1 V2 V3 V4 V5 V6 V7 V8 V9 VA VB VC VD VE VF" << std::endl;
@@ -58,12 +58,12 @@ void Debugger::printRegisters(){
   }
 }
 
-// Prints the index register of the cpu
+// Prints the index register of the CPU
 void Debugger::printIndex(){
   std::cout << "i = 0x" << std::hex << chip8.getIndex() << std::endl;
 }
 
-// Prints the program counter of the cpu (the location in memory of the
+// Prints the program counter of the CPU (the location in memory of the
 // next opcode)
 void Debugger::printProgramCounter(){
   std::cout << "pc = 0x" << std::hex << chip8.getProgramCounter() << std::endl;
@@ -84,7 +84,7 @@ void Debugger::printStackPointer(){
   std::cout << "sp = " << std::hex << chip8.getStackPointer() << std::endl;
 }
 
-// Prints debug info from the last cpu instruction
+// Prints debug info from the last CPU instruction
 void Debugger::printDebug(){
   std::cout << "DEBUG: " << debug << std::endl;
 }

@@ -1,4 +1,4 @@
-#include "cpu.h"
+#include "CPU.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -7,7 +7,7 @@ using namespace::std;
 
 static unsigned char random_number();
 
-cpu::cpu() : opcode(0), i(0), pc(0x200), sp(0) {
+CPU::CPU() : opcode(0), i(0), pc(0x200), sp(0) {
   // Clear display
   clearScreen();
 
@@ -41,7 +41,7 @@ cpu::cpu() : opcode(0), i(0), pc(0x200), sp(0) {
   sound_timer = 0;
 }
 
-void cpu::loadGame(istream &game){
+void CPU::loadGame(istream &game){
   // get length of file
   game.seekg(0, game.end);
   int length = game.tellg();
@@ -60,7 +60,7 @@ void cpu::loadGame(istream &game){
   delete[] buffer;
 }
 
-void cpu::cycle(){
+void CPU::cycle(){
   // Obtain next opcode
   // Works by shifting the first byte to the left by adding 8 zeroes. Then,
   // by using OR, it combines both into a two byte value.
@@ -393,28 +393,28 @@ void cpu::cycle(){
   }
 }
 
-void cpu::clearScreen(){
+void CPU::clearScreen(){
   for(int i = 0; i < 64 * 32; ++i){
     screen[i] = 0;
   }
 }
 
-const unsigned short& cpu::getOpcode(){
+const unsigned short& CPU::getOpcode(){
   return opcode;
 }
-const unsigned char* cpu::getRegisters(){
+const unsigned char* CPU::getRegisters(){
   return reg;
 }
-const unsigned short& cpu::getIndex(){
+const unsigned short& CPU::getIndex(){
   return i;
 }
-const unsigned short& cpu::getProgramCounter(){
+const unsigned short& CPU::getProgramCounter(){
   return pc;
 }
-const unsigned short* cpu::getStack(){
+const unsigned short* CPU::getStack(){
   return stack;
 }
-const unsigned short& cpu::getStackPointer(){
+const unsigned short& CPU::getStackPointer(){
   return sp;
 }
 

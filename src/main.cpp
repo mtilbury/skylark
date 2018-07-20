@@ -1,4 +1,4 @@
-#include "cpu.h"
+#include "CPU.h"
 #include <iostream> // for input/output to terminal
 #include <fstream> // to open and read from ROM file
 #include "SDL2/SDL.h"
@@ -13,7 +13,7 @@ int main(int argc, char* argv[]){
     exit(EXIT_FAILURE);
   }
   // Initialize the emulator
-  cpu skylark;
+  CPU skylark;
   string game(argv[1]);
 
   // Load ROM file
