@@ -3,3 +3,4 @@ test
 roms/
 .INVADERS.swp
 output
+.vscode
