@@ -1,3 +1,5 @@
+#ifndef SKYLARK_CPU_H_
+#define SKYLARK_CPU_H_
 /*
  *  cpu.h
  *
@@ -66,3 +68,5 @@ private:
     0xF0, 0x80, 0xF0, 0x80, 0x80  // F
   };
 };
+
+#endif  // SKYLARK_CPU_H_

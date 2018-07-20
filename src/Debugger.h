@@ -1,7 +1,12 @@
+#ifndef SKYLARK_DEBUGGER_H_
+#define SKYLARK_DEBUGGER_H_
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <sstream>
+
+#include "cpu.h"
 
 class Debugger {
 public:
@@ -348,3 +353,5 @@ void Debugger::updateDebugInfo(){
         debug = "n/a";
   }
 }
+
+#endif  // SKYLARK_DEBUGGER_H_
