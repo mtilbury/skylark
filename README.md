@@ -1,7 +1,7 @@
 # CHIP-8 Skylark
 
 <p>
-CHIP-8 Skylark is an emulator/interpretor written in C++ for the CHIP-8 programming language.
+CHIP-8 Skylark is an emulator/interpreter written in C++ for the CHIP-8 programming language.
 Originally developed in the 70s, the CHIP-8 was a virtual machine meant to run
 simple games for early microcomputers like the Telmac 1800.
 </p>
