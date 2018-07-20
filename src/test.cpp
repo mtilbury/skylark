@@ -1,4 +1,3 @@
-#include "cpu.h"
 #include "Debugger.h"
 #include <iostream>
 #include <fstream>
@@ -73,11 +72,4 @@ int main(int argc, char* argv[]){
       cout << "Unrecognized command. Type 'h' for more information." << endl;
     }
   }
-
-  debug.cycle();
-  debug.printOpcode();
-  debug.cycle();
-  debug.printOpcode();
-
-  cout << "if this prints that means it actually compiled congrats" << endl;
 }
