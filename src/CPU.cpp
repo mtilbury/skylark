@@ -43,15 +43,15 @@ CPU::CPU() : opcode(0), i(0), pc(0x200), sp(0) {
   sound_timer = 0;
 }
 
-void CPU::loadGame(istream &game){
+void CPU::loadMem(istream &data){
   // get length of file
-  game.seekg(0, game.end);
-  int length = game.tellg();
-  game.seekg(0, game.beg);
+  data.seekg(0, data.end);
+  int length = data.tellg();
+  data.seekg(0, data.beg);
 
   // Create dynamic array for size of file. Reads one byte at a time to buffer
   char * buffer = new char [length];
-  game.read(buffer, length);
+  data.read(buffer, length);
 
   // Set buffer into memory starting at position 512 (0x200)
   for(int i = 0; i < length; ++i){
@@ -376,7 +376,7 @@ void CPU::cycle(){
             pc += 2;
           break;
         }
-
+      break;
       default:
         cerr << "Unrecognized upcode: 0x" << hex << opcode << endl;
         exit(1);

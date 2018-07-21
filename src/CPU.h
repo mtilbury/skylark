@@ -15,7 +15,7 @@ public:
   bool drawflag = false; // if the drawflag is set to true, the screen is drawn
 
   void cycle(); // completes one cycle of emulation
-  void loadGame(std::istream &game); // loads the game
+  void loadMem(std::istream &data); // loads data from input stream into memory
   unsigned char key[16]; // used for keypad control
   unsigned char screen[64 * 32]; // represents the 64x32 pixel b/w screen
 
